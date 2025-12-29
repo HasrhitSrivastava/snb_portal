@@ -88,10 +88,9 @@ jobs:
           MINIO_ROOT_PASSWORD: minioadmin
         ports:
           - 9000:9000
-        # The 'server /data' goes inside 'options' for service containers
+        # Removing 'server /data' from the middle and simplifying health check
         options: >-
-          server /data
-          --health-cmd "curl -f http://localhost:9000/minio/health/live"
+          --health-cmd "curl -f http://localhost:9000/minio/health/live || exit 1"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
