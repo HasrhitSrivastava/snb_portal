@@ -88,11 +88,16 @@ jobs:
           MINIO_ROOT_PASSWORD: minioadmin
         ports:
           - 9000:9000
-        args: server /data
+        # Use 'command' instead of 'args' for services
+        command: server /data
+        options: >-
+          --health-cmd "curl -f http://localhost:9000/minio/health/live"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     env:
       RAILS_ENV: test
-      # Using your provided variable names
       TEMPLATEAPP_DATABASE_USER: postgres
       TEMPLATEAPP_DATABASE_PASSWORD: postgres
       TEMPLATEAPP_DATABASE_TEST: snb_test
@@ -111,22 +116,14 @@ jobs:
 
       - name: Create Minio Bucket
         run: |
+          # We use the MinIO client (mc) to create the 'snb' bucket so your app doesn't crash
           docker run --network host --entrypoint sh minio/mc -c "mc alias set myminio http://localhost:9000 minioadmin minioadmin; mc mb myminio/snb || true"
 
-      - name: Run Database Tests
+      - name: Run All Tests
         run: |
           bin/rails db:test:prepare
           bin/rails test
-
-      - name: Run System Tests
-        run: bin/rails test:system
-
-      - name: Keep screenshots
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: screenshots
-          path: tmp/screenshots
+          bin/rails test:system
 
   system-test:
     runs-on: ubuntu-latest
