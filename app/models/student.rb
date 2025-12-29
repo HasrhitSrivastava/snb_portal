@@ -60,6 +60,3 @@ class Student < ApplicationRecord
         Date.strptime(dob, dt_format) >= Date.strptime(Date.today.strftime(dt_format), dt_format)
     end
   end
-
-  #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
-  
