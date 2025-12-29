@@ -19,12 +19,12 @@ ActiveAdmin.register Student do
   filter :last_name
   filter :grade,
        as: :select,
-       collection: Student.grades.map { |name, value| [name.titleize, value] }
+       collection: Student.grades.map { |name, value| [ name.titleize, value ] }
   filter :father_name
   filter :mother_name
   filter :gender,
        as: :select,
-       collection: Student.genders.map { |name, value| [name.titleize, value] }      
+       collection: Student.genders.map { |name, value| [ name.titleize, value ] }
 
   # Add or remove columns to toggle their visibility in the index action
   index do
@@ -90,7 +90,7 @@ ActiveAdmin.register Student do
 
   # Add or remove fields to toggle their visibility in the form
   form do |f|
-    f.semantic_errors(*f.object.errors.attribute_names)    
+    f.semantic_errors(*f.object.errors.attribute_names)
     f.inputs do
       f.input :scholar_number
       f.input :first_name
@@ -107,12 +107,12 @@ ActiveAdmin.register Student do
       f.input :country,
                 required: true,
                 as: :searchable_select,
-                collection: ISO3166::Country.all.map { |c| ["#{c.emoji_flag} #{c.common_name}", c.common_name] },
+                collection: ISO3166::Country.all.map { |c| [ "#{c.emoji_flag} #{c.common_name}", c.common_name ] },
                 selected: f.object.country, input_html: { class: "select2" }
       f.input :country_code,
                 required: true,
                 as: :searchable_select,
-                collection: ISO3166::Country.all.map { |c| ["#{c.emoji_flag} #{c.common_name} (+#{c.country_code})", c.country_code] },
+                collection: ISO3166::Country.all.map { |c| [ "#{c.emoji_flag} #{c.common_name} (+#{c.country_code})", c.country_code ] },
                 selected: f.object.country_code, input_html: { class: "select2" }
       f.input :phone_number
       f.input :aadhar_number
@@ -124,16 +124,16 @@ ActiveAdmin.register Student do
   #   # ======= Your DOCX generation logic goes here =======
   #   # Example: Generate a simple DOCX
   #   require 'docx'
-  
+
   #   file_path = Rails.root.join("tmp", "student_#{resource.id}.docx")
   #   doc = Docx::Document.open(Rails.root.join("app", "templates", "snb_transfer_certificate.docx"))
-  
+
   #   # Example replacements
   #   doc.bookmarks['first_name'].insert_text_after(resource.first_name.to_s)
   #   doc.bookmarks['father_name'].insert_text_after(resource.father_name.to_s)
-  
+
   #   doc.save(file_path)
-  
+
   #   send_file file_path,
   #             type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   #             filename: "student_#{resource.id}.docx"

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register_page "Dashboard" do
   menu priority: 1, label: proc { I18n.t("active_admin.dashboard") }
 
@@ -24,12 +25,12 @@ ActiveAdmin.register_page "Dashboard" do
     # Chart demo dataset (labels + values as simple arrays)
     sales_dataset = {
       labels: %w[Apr May Jun Jul Aug Sep],
-      values: [4200, 5200, 4800, 6100, 7300, 6900]
+      values: [ 4200, 5200, 4800, 6100, 7300, 6900 ]
     }
 
     users_dataset = {
       labels: %w[Apr May Jun Jul Aug Sep],
-      values: [120, 150, 140, 180, 220, 200]
+      values: [ 120, 150, 140, 180, 220, 200 ]
     }
 
     stats = {
@@ -42,7 +43,7 @@ ActiveAdmin.register_page "Dashboard" do
     # simple chart example data
     chart_data = {
       labels: %w[Jan Feb Mar Apr May Jun],
-      values: [4, 6, 3, 8, 10, 7]
+      values: [ 4, 6, 3, 8, 10, 7 ]
     }
 
     render partial: "admin/dashboard/demo_dashboard",

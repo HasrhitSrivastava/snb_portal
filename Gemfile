@@ -44,7 +44,7 @@ gem "image_processing", "~> 1.2"
 
 group :development, :test do
   gem "dotenv-rails"
-  
+
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
@@ -71,7 +71,7 @@ end
 
 gem "activeadmin", "= 4.0.0beta15"
 # gem 'activerecord-session_store'
-gem 'activeadmin-searchable_select'
+gem "activeadmin-searchable_select"
 
 gem "devise", "~> 4.9"
 
@@ -79,8 +79,8 @@ gem "cssbundling-rails", "= 1.4.1"
 
 gem "tailwindcss-ruby", "~> 3.4.17"
 
-gem 'countries'
+gem "countries"
 
 gem "pry-nav"
 
-gem 'select2-rails'
+gem "select2-rails"
