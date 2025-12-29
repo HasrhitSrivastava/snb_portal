@@ -82,18 +82,13 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       minio:
-        image: minio/minio
+        image: bitnami/minio:latest
         env:
           MINIO_ROOT_USER: minioadmin
           MINIO_ROOT_PASSWORD: minioadmin
+          MINIO_DEFAULT_BUCKETS: snb
         ports:
           - 9000:9000
-        # Removing 'server /data' from the middle and simplifying health check
-        options: >-
-          --health-cmd "curl -f http://localhost:9000/minio/health/live || exit 1"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     env:
       RAILS_ENV: test
@@ -113,18 +108,18 @@ jobs:
         with:
           bundler-cache: true
 
-      - name: Create Minio Bucket
-        run: |
-          # Use the mc (Minio Client) image to create the bucket
-          # We add a 5-second sleep to ensure the server is fully initialized
-          sleep 5
-          docker run --network host --entrypoint sh minio/mc -c "mc alias set myminio http://localhost:9000 minioadmin minioadmin; mc mb myminio/snb || true"
-
       - name: Run All Tests
         run: |
           bin/rails db:test:prepare
           bin/rails test
           bin/rails test:system
+
+      - name: Keep screenshots on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: screenshots
+          path: tmp/screenshots
 
   system-test:
     runs-on: ubuntu-latest
