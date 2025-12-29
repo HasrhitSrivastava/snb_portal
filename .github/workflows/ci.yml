@@ -132,36 +132,65 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      postgres: # Must repeat all this
+      postgres:
         image: postgres:15
-        # ... env and options ...
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: snb_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
       minio:
-        image: minio/minio
-        # ... env and args ...
+        image: minio/minio:RELEASE.2022-10-29T06-21-33Z
+        env:
+          MINIO_ROOT_USER: minioadmin
+          MINIO_ROOT_PASSWORD: minioadmin
+        ports:
+          - 9000:9000
+
     env:
       RAILS_ENV: test
+      # These must match your app's specific environment variables
+      TEMPLATEAPP_DATABASE_USER: postgres
+      TEMPLATEAPP_DATABASE_PASSWORD: postgres
+      TEMPLATEAPP_DATABASE_TEST: snb_test
+      S3_ENDPOINT: "http://localhost:9000"
+      S3_BUCKET: "snb"
+      S3_KEY_ID: "minioadmin"
+      S3_SECRET_KEY: "minioadmin"
       DATABASE_URL: "postgres://postgres:postgres@localhost:5432/snb_test"
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
 
+      - name: Create Screenshots Directory
+        run: mkdir -p tmp/screenshots
+
+      - name: Setup Minio Bucket
+        run: |
+          sleep 5
+          docker run --network host --entrypoint sh minio/mc -c "mc alias set myminio http://localhost:9000 minioadmin minioadmin; mc mb myminio/snb || true"
+
       - name: Run System Tests
-        env:
-          RAILS_ENV: test
-          # RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          # REDIS_URL: redis://localhost:6379/0
-        run: bin/rails db:test:prepare test:system
+        run: |
+          bin/rails db:test:prepare
+          bin/rails test:system
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: screenshots
-          path: ${{ github.workspace }}/tmp/screenshots
+          path: tmp/screenshots
           if-no-files-found: ignore
