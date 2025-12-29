@@ -69,7 +69,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "activeadmin", "= 4.0.0beta15"
+gem "activeadmin", "4.0.0.beta19"
 # gem 'activerecord-session_store'
 gem "activeadmin-searchable_select"
 
