@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= @school_name || "SNB Convent School" %> - Welcome</title>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <style>
+        .main-content {
+            flex-grow: 1; /* Pushes footer down */
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%; /* Ensure it takes full width within max-width */
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+        }
+
+        /* --- Page Hero Section --- */
+        .page-hero {
+            background: linear-gradient(rgba(0, 77, 153, 0.8), rgba(0, 77, 153, 0.8)), url('https://via.placeholder.com/1200x400/004d99/FFFFFF?text=School+Building+Exterior') no-repeat center center/cover;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .page-hero h2 {
+            color: var(--secondary-color);
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+
+        .page-hero p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* --- Content Sections (Mission, Academics, etc.) --- */
+        .content-section {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 60px;
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .content-section:last-of-type {
+            margin-bottom: 40px; /* Less margin for the last section before CTA */
+        }
+
+        .section-text {
+            flex: 1;
+        }
+
+        .section-text h3 {
+            font-size: 2.2rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .section-text p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .section-text ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .section-text ul li {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="%23004d99" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>') no-repeat left center;
+            background-size: 20px;
+            padding-left: 28px;
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        .section-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .section-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Reverse layout for alternating sections */
+        .content-section.reverse {
+            flex-direction: row-reverse;
+        }
+
+        /* --- Call to Action Section --- */
+        .call-to-action {
+            text-align: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+        }
+
+        .call-to-action h3 {
+            color: var(--secondary-color);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .call-to-action p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .call-to-action .btn-primary {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            margin: 0 10px;
+        }
+
+        .call-to-action .btn-secondary {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color); /* Added for distinction */
+            padding: 10px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+            margin: 0 10px;
+        }
+
+        .call-to-action .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: white;
+        }
+
+
+        /* --- Buttons (reused from welcome) --- */
+        .btn-primary {
+            display: inline-block;
+            padding: 10px 30px;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #ffd85e; /* Lighter Gold */
+        }
+
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 992px) {
+            .content-section, .content-section.reverse {
+                flex-direction: column;
+                text-align: center;
+            }
+            .section-image {
+                margin-top: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-hero h2 {
+                font-size: 2rem;
+            }
+            .content-section {
+                padding: 30px 20px;
+            }
+            .section-text h3 {
+                font-size: 1.8rem;
+            }
+            .call-to-action h3 {
+                font-size: 2rem;
+            }
+            .call-to-action .btn-primary, .call-to-action .btn-secondary {
+                display: block;
+                margin: 15px auto;
+                width: 80%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo">
+                <h1><%= @school_name || "SNB Convent School" %></h1>
+            </div>
+
+            <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+                <i class="fa fa-bars"></i>
+            </a>
+
+            <ul id="myLinks" class="nav-links">
+                <li><a href="<%= root_path %>">Home</a></li>
+                <li><a href="/admission">Admissions</a></li>
+                <li><a href="/academic">Academics</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+                <li><a href="/admin">Portal Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="page-hero">
+            <div class="page-hero-content">
+                <h2>Explore What Makes Us Unique</h2>
+                <p>Dive deeper into the heart of <%= @school_name || "SNB Convent School" %> and discover our commitment to excellence.</p>
+            </div>
+        </section>
+
+        <section class="content-section mission">
+            <div class="section-text">
+                <h3>Our Inspiring Mission</h3>
+                <p>At SNB Convent School, our mission is to cultivate a vibrant learning community where every student is empowered to achieve academic excellence, develop critical thinking skills, and become a responsible, compassionate global citizen. We foster an environment that celebrates diversity, encourages innovation, and prepares students for success in a rapidly changing world.</p>
+                <p>We believe in nurturing not just intellect, but character, ensuring our graduates are well-rounded individuals ready to make meaningful contributions.</p>
+            </div>
+            <div class="section-image">
+                <%= image_tag "student-laughing.jpg", alt: "Students actively participating in a classroom discussion." %>
+            </div>
+        </section>
+
+        <section class="content-section academics reverse">
+            <div class="section-image">
+                <%= image_tag "student-exp.jpg", alt: "Students conducting an experiment in a modern science laboratory." %>
+            </div>
+            <div class="section-text">
+                <h3>Academic Excellence</h3>
+                <p>Our rigorous academic programs are designed to challenge and inspire. With a comprehensive curriculum spanning STEM, Humanities, Arts, and vocational subjects, we provide a rich educational experience. Our dedicated faculty employs innovative teaching methods, ensuring students not only learn facts but also develop problem-solving abilities and a lifelong love for learning.</p>
+                <ul>
+                    <li>Advanced Placement (AP) courses</li>
+                    <li>State-of-the-art science and computer labs</li>
+                    <li>Personalized learning pathways</li>
+                    <li>Award-winning debate and robotics teams</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-section student-life">
+            <div class="section-text">
+                <h3>Vibrant Student Life</h3>
+                <p>Beyond academics, SNB Convent School offers a bustling array of extracurricular activities, clubs, and sports. From championship athletic teams to thriving arts programs, there's something for every student to explore their passions, build friendships, and develop leadership skills.</p>
+                <p>We encourage every student to get involved, fostering a sense of belonging and community that extends beyond the classroom.</p>
+                <a href="#" class="btn btn-primary">See Our Clubs & Sports</a>
+            </div>
+            <div class="section-image">
+                <%= image_tag "student-activity.jpg", alt: "SNB Convent School offers a bustling array of extracurricular activities." %>
+            </div>
+        </section>
+
+        <section class="content-section facilities reverse">
+            <div class="section-image">
+                <%= image_tag "school-campus.jpg", alt: "Beautiful exterior view of the school campus building." %>
+            </div>
+            <div class="section-text">
+                <h3>Modern Campus & Facilities</h3>
+                <p>Our campus blends historic charm with modern amenities, providing an optimal learning environment. Features include technologically equipped classrooms, a renovated library, expansive athletic fields, a performing arts auditorium, and dedicated spaces for art and music.</p>
+                <p>We are constantly investing in our infrastructure to support innovative teaching and learning for generations to come.</p>
+            </div>
+        </section>
+
+        <section class="call-to-action">
+            <h3>Ready to Learn More?</h3>
+            <p>We invite you to experience the SNB Convent School difference firsthand.</p>
+            <a href="#" class="btn btn-primary">Schedule a Visit</a>
+            <a href="#" class="btn btn-secondary">Apply Now</a>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+         <p>&copy; <%= Time.now.year %> SNB Convent School. All Rights Reserved. | Address: 123 School Rd | Phone: (555) 123-4567</p>
+    </footer>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= @school_name || "SNB Convent School" %> - Welcome</title>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <style>
+        .main-content {
+            flex-grow: 1; 
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h2, h3 {
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* --- Hero Section --- */
+        .admissions-hero {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: var(--card-background);
+            border-bottom: 5px solid var(--secondary-color);
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .admissions-hero p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        /* --- Buttons (Reused from Welcome/Discover More) --- */
+        .btn-primary {
+            display: inline-block;
+            padding: 10px 30px;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            padding: 10px 30px;
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* --- 4-Step Process Section --- */
+        .admissions-process {
+            padding: 40px 20px;
+            background-color: var(--card-background);
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .step-container {
+            display: flex;
+            gap: 30px;
+            justify-content: space-between;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            border: 1px dashed #ced4da;
+            border-radius: 6px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-number {
+            display: block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+
+        .step h4 {
+            color: var(--secondary-color);
+            font-family: var(--font-heading);
+            margin-top: 0;
+        }
+
+        /* --- Requirements Section --- */
+        .admissions-requirements {
+            padding: 40px 20px;
+            margin-bottom: 40px;
+            background-color: var(--background-color);
+            border-radius: 8px;
+        }
+
+        .requirements-flex {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .requirements-list, .important-dates {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .requirements-list {
+            flex: 2;
+        }
+
+        .important-dates {
+            flex: 1;
+            text-align: center;
+        }
+
+        .requirements-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .requirements-list li {
+            padding: 10px 0;
+            border-bottom: 1px dotted #e9ecef;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .important-dates h4 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .date-item {
+            font-size: 1.1rem;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+
+        /* --- FAQ/CTA Section --- */
+        .admissions-faq {
+            text-align: center;
+            padding: 30px 20px;
+            margin-bottom: 40px;
+        }
+
+        .admissions-faq a {
+            margin: 0 10px;
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 992px) {
+            .step-container, .requirements-flex {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .step {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .admissions-hero h2 {
+                font-size: 1.8rem;
+            }
+            .admissions-faq a {
+                display: block;
+                margin: 10px auto;
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo">
+                <h1><%= @school_name || "SNB Convent School" %></h1>
+            </div>
+
+            <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+                <i class="fa fa-bars"></i>
+            </a>
+
+            <ul id="myLinks" class="nav-links">
+                <li><a href="<%= root_path %>">Home</a></li>
+                <li><a href="/admission">Admissions</a></li>
+                <li><a href="/academic">Academics</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+                <li><a href="/admin">Portal Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        
+        <section class="admissions-hero">
+            <h2>Welcome to SNB Convent School Admissions</h2>
+            <p>Your journey to a brighter future starts here. Follow the steps below to apply for the upcoming academic year.</p>
+            <a href="#process" class="btn btn-primary">Start Your Application</a>
+        </section>
+
+        <section id="process" class="admissions-process">
+            <h3>Our 4-Step Admissions Process</h3>
+            
+            <div class="step-container">
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <h4>Review & Inquire</h4>
+                    <p>Read our admission policies and complete the **Online Inquiry Form**. This helps us understand your needs and send you relevant materials.</p>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <h4>Submit Application</h4>
+                    <p>Complete the full **Online Application** and pay the non-refundable application fee. Upload all required documents (transcripts, etc.).</p>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <h4>Interview & Assessment</h4>
+                    <p>Schedule a mandatory **Student Interview** and complete any required academic assessments or entrance exams.</p>
+                </div>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <h4>Decision & Enrollment</h4>
+                    <p>Receive your admission decision. Upon acceptance, complete the **Enrollment Contract** and pay the deposit to secure your spot.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="admissions-requirements">
+            <h3>Required Application Documents</h3>
+            <div class="requirements-flex">
+                <div class="requirements-list">
+                    <h4>Essential Paperwork</h4>
+                    <ul>
+                        <li>Completed Online Application Form</li>
+                        <li>Non-refundable Application Fee ($100)</li>
+                        <li>Official Transcript/Report Cards (Last 2 years)</li>
+                        <li>Copy of Birth Certificate or Passport</li>
+                        <li>Two Letters of Recommendation (from teachers)</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary">Download Checklist PDF</a>
+                </div>
+                <div class="important-dates">
+                    <h4>Key Dates</h4>
+                    <p class="date-item">Application Opens: **October 1st**</p>
+                    <p class="date-item">Priority Deadline: **January 15th**</p>
+                    <p class="date-item">Decisions Mailed: **March 1st**</p>
+                    <p class="date-item">Enrollment Deadline: **April 15th**</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="admissions-faq">
+            <h3>Questions?</h3>
+            <p>Our Admissions Office is here to help. Contact us directly or view our Frequently Asked Questions.</p>
+            <a href="#" class="btn btn-primary">Admissions FAQ</a>
+            <a href="#" class="btn btn-secondary">Contact Admissions Office</a>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; <%= Time.now.year %> SNB Convent School. All Rights Reserved. | Address: 123 School Rd | Phone: (555) 123-4567</p>
+    </footer>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</body>
+</html>

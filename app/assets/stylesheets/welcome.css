@@ -1,0 +1,285 @@
+/* --- Global Styles --- */
+:root {
+    --primary-color: #004d99; /* Deep Blue */
+    --secondary-color: #ffc107; /* Gold/Amber */
+    --background-color: #f8f9fa; /* Light Gray */
+    --text-color: #343a40; /* Dark Gray */
+    --font-heading: 'Roboto Slab', serif;
+    --font-body: 'Open Sans', sans-serif;
+}
+
+body {
+    font-family: var(--font-body);
+    margin: 0;
+    padding-bottom: 60px; /* Footer height */
+    line-height: 1.6;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.main-header, .hero, .announcements-section, .pillars-section, .main-footer {
+    padding: 20px 5%;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    color: var(--primary-color);
+}
+
+/* --- Header & Navigation --- */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.main-nav li a {
+    text-decoration: none;
+    color: var(--text-color);
+    padding: 15px 20px;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.main-nav li a:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+.menu-toggle {
+    display: none; /* Hidden on desktop */
+}
+
+/* --- Hero Section --- */
+.hero {
+    background: var(--primary-color);
+    color: white;
+    padding: 100px 5%;
+    text-align: center;
+    position: relative;
+}
+
+.hero h2 {
+    color: var(--secondary-color);
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 10px 30px;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #ffd85e; /* Lighter Gold */
+}
+
+/* --- Announcements Ticker --- */
+.announcements-section {
+    background-color: #e9ecef;
+    text-align: center;
+    padding: 15px 5%;
+}
+
+.ticker {
+    overflow: hidden;
+    white-space: nowrap;
+    box-sizing: border-box;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* --- Pillars Section --- */
+.pillars-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 50px 5%;
+    text-align: center;
+}
+
+.pillar {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.pillar .icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* --- Footer --- */
+.main-footer {
+    font-size: 0.9rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: var(--primary-color);
+    color: #fff;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Media Queries (Responsiveness) --- */
+@media (max-width: 768px) {
+    .main-nav {
+        /* Keep this: Hide navigation by default on small screens */
+        display: none; 
+        position: absolute; /* Add this to position it over content */
+        top: 100%; /* Position below the header/nav bar */
+        left: 0;
+        width: 100%;
+        background-color: #f8f8f8; /* A visible background color */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+    }
+    
+    /* 🌟 THE NEW CRITICAL RULE 🌟 */
+    .main-nav.open {
+        display: block; /* Overrides the 'display: none;' when the button is clicked */
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+    }
+
+    .main-nav li {
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .menu-toggle {
+        display: block; /* Show menu button */
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--primary-color);
+        /* Ensure the button is easily accessible, maybe float it right */
+        float: right; 
+    }
+
+    .pillars-section {
+        flex-direction: column; /* Stack pillars vertically */
+    }
+}
+
+
+/* MAIN NAV BAR */
+.navbar {
+    position: relative;
+    width: 100%;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* LOGO */
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+    color: #003b97;
+}
+
+/* HAMBURGER BUTTON */
+.icon {
+    font-size: 26px;
+    cursor: pointer;
+    color: #003b97;
+}
+
+/* MOBILE MENU (hidden initially) */
+.nav-links {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: #333;
+    width: 180px;
+    border-radius: 4px;
+    padding: 0;
+    list-style: none;
+
+    /* FIX: Bring dropdown above everything */
+    z-index: 9999;
+
+    /* optional: make it look cleaner */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.nav-links li a {
+    display: block;
+    padding: 12px 14px;
+    text-decoration: none;
+    background-color: var(--secondary-color) !important;
+    color: var(--primary-color) !important;
+}
+
+.nav-links li a:hover {
+    background-color: white !important;
+    color: var(--primary-color);
+}
+
+/* DESKTOP VIEW */
+@media (min-width: 768px) {
+    .icon {
+        display: none;
+    }
+
+    .nav-links {
+        display: flex !important;
+        position: static;
+        background: none;
+        width: auto;
+    }
+
+    .nav-links li a {
+        color: #003b97;
+        padding: 10px 16px;
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
+    }
+
+    .nav-links li a:hover {
+        background: none;
+        color: #0055d4;
+    }
+}

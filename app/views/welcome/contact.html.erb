@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - SNB Convent School</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <style rel="stylesheet">
+        /* --- CSS Variables for easy color changes --- */
+            .contact-container {
+                max-width: 1200px;
+                margin: 40px auto;
+                padding: 0 20px;
+            }
+
+            /* --- Header Styling --- */
+            .contact-header {
+                text-align: center;
+                margin-bottom: 40px;
+                padding: 20px;
+                background-color: var(--card-background);
+                border-radius: 8px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            }
+
+            .contact-header h1 {
+                color: var(--primary-color);
+                margin-bottom: 5px;
+            }
+
+            /* --- Main Content Layout --- */
+            .contact-content {
+                display: flex;
+                gap: 30px;
+            }
+
+            .contact-form-section, .contact-info-section {
+                padding: 30px;
+                border-radius: 8px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+                background-color: var(--card-background);
+            }
+
+            .contact-form-section {
+                flex: 2; /* Form takes up more space */
+            }
+
+            .contact-info-section {
+                flex: 1;
+            }
+
+            /* --- Form Styling --- */
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+                color: var(--primary-color);
+            }
+
+            input[type="text"], input[type="email"], textarea {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ced4da;
+                border-radius: 4px;
+                box-sizing: border-box; /* Ensures padding doesn't affect total width */
+                transition: border-color 0.3s;
+            }
+
+            input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+                border-color: var(--primary-color);
+                outline: none;
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+            }
+
+            .error-message {
+                color: var(--error-color);
+                font-size: 0.85rem;
+                display: block;
+                margin-top: 5px;
+            }
+
+            .submit-btn {
+                background-color: var(--secondary-color);
+                color: white;
+                padding: 12px 25px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 1.1rem;
+                font-weight: bold;
+                transition: background-color 0.3s;
+            }
+
+            .submit-btn:hover {
+                background-color: #1e7e34;
+            }
+
+            /* --- Info Section Styling --- */
+            .info-item {
+                margin-bottom: 30px;
+            }
+
+            .info-item h3 {
+                margin: 5px 0 0;
+                color: var(--text-color);
+            }
+
+            .info-item .icon {
+                font-size: 1.8rem;
+                color: var(--primary-color);
+            }
+
+            .contact-info-section a {
+                color: var(--primary-color);
+                text-decoration: none;
+            }
+
+            .contact-info-section a:hover {
+                text-decoration: underline;
+            }
+
+            .map-placeholder {
+                height: 200px;
+                background-color: #e9ecef;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-color);
+                border: 1px solid #ced4da;
+            }
+
+            /* --- Responsiveness (Mobile View) --- */
+            @media (max-width: 768px) {
+                .contact-content {
+                    flex-direction: column; /* Stack columns vertically */
+                }
+
+                .contact-form-section, .contact-info-section {
+                    flex: none;
+                    width: 100%;
+                    padding: 20px;
+                }
+            }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo">
+                <h1><%= @school_name || "SNB Convent School" %></h1>
+            </div>
+
+            <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+                <i class="fa fa-bars"></i>
+            </a>
+
+            <ul id="myLinks" class="nav-links">
+                <li><a href="<%= root_path %>">Home</a></li>
+                <li><a href="/admission">Admissions</a></li>
+                <li><a href="/academic">Academics</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+                <li><a href="/admin">Portal Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="contact-container">
+        
+        <header class="contact-header">
+            <h1>Get In Touch With Us</h1>
+            <p>We're here to answer your questions and provide support.</p>
+        </header>
+
+        <div class="contact-content">
+            
+            <section class="contact-form-section">
+                <h2>Send Us a Message</h2>
+                <form id="contactForm" class="contact-form" action="/submit_contact" method="POST">
+                    
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Harsh">
+                        <small class="error-message" id="nameError"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="snb@gmail.com">
+                        <small class="error-message" id="emailError"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required placeholder="Inquiry about admissions">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" name="message" rows="5" required placeholder="How can we help you?"></textarea>
+                        <small class="error-message" id="messageError"></small>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Send Message</button>
+                    <p id="formStatus" class="form-status"></p>
+                </form>
+            </section>
+
+            <aside class="contact-info-section">
+                <h2>Our Information</h2>
+                
+                <div class="info-item">
+                    <i class="icon">📍</i>
+                    <h3>Address</h3>
+                    <p>SNB Convent School,<br>Varanasi, Uttar Pradesh, 123456</p>
+                </div>
+
+                <div class="info-item">
+                    <i class="icon">📧</i>
+                    <h3>Email</h3>
+                    <p><a href="mailto:info@yourschool.edu">info@yourschool.edu</a></p>
+                </div>
+
+                <div class="info-item">
+                    <i class="icon">📞</i>
+                    <h3>Phone</h3>
+                    <p><a href="tel:+15551234567">(555) 123-4567</a></p>
+                </div>
+                
+                <div class="info-item">
+                    <i class="icon">⏰</i>
+                    <h3>School Office Hours</h3>
+                    <p>Mon - Sat: 9:00 AM - 3:00 PM</p>
+                </div>
+                
+                <div class="">
+                </div>
+            </aside>
+        </div>
+
+    </div>
+
+    <footer class="main-footer">
+        <p>&copy; <%= Time.now.year %> SNB Convent School. All Rights Reserved. | Address: 123 School Rd | Phone: (555) 123-4567</p>
+    </footer>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('contactForm');
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const messageInput = document.getElementById('message');
+            const statusMessage = document.getElementById('formStatus');
+
+            form.addEventListener('submit', function(event) {
+                // Prevent default form submission to handle validation
+                event.preventDefault(); 
+                
+                let isValid = true;
+
+                // Clear previous error messages
+                document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+                statusMessage.textContent = '';
+                
+                // Validation 1: Name Check
+                if (nameInput.value.trim() === '') {
+                    document.getElementById('nameError').textContent = 'Full Name is required.';
+                    isValid = false;
+                }
+
+                // Validation 2: Email Check
+                if (emailInput.value.trim() === '') {
+                    document.getElementById('emailError').textContent = 'Email Address is required.';
+                    isValid = false;
+                } else if (!isValidEmail(emailInput.value.trim())) {
+                    document.getElementById('emailError').textContent = 'Please enter a valid email address.';
+                    isValid = false;
+                }
+
+                // Validation 3: Message Check
+                if (messageInput.value.trim() === '') {
+                    document.getElementById('messageError').textContent = 'A message is required.';
+                    isValid = false;
+                }
+
+                // If validation passes, you would typically submit the form via AJAX 
+                // or let the native form submission proceed.
+                if (isValid) {
+                    // For a production Rails app, you would submit the form using:
+                    // form.submit();
+                    
+                    // For this demonstration, we'll show a success message:
+                    statusMessage.textContent = 'Message sent successfully! We will be in touch soon.';
+                    statusMessage.style.color = var(--secondary-color); // Green
+                    form.reset(); // Clear the form fields
+                } else {
+                    statusMessage.textContent = 'Please correct the errors above.';
+                    statusMessage.style.color = var(--error-color); // Red
+                }
+            });
+
+            /**
+             * Basic function to check email format
+             */
+            function isValidEmail(email) {
+                // Simple regex pattern for email format check
+                const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return pattern.test(email);
+            }
+        });
+    </script>
+</body>
+</html>
