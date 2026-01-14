@@ -68,6 +68,9 @@ group :test do
 end
 
 gem "activeadmin", "= 4.0.0beta15"
+
+gem "action_text-trix", ">= 2.1.16"
+
 # gem 'activerecord-session_store'
 gem "devise", "~> 4.9"
 
