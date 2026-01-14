@@ -87,12 +87,22 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  adapter: postgresql
-  database: <%= ENV['TEMPLATEAPP_DATABASE'] %>
-  username: <%= ENV['TEMPLATEAPP_DATABASE_USER'] %>
-  password: <%= ENV['TEMPLATEAPP_DATABASE_PASSWORD'] %>
-  host: <%= ENV['TEMPLATE_DATABASE_HOSTNAME'] %>
-  port: 5432
+  primary: &primary_production
+    <<: *default
+    adapter: postgresql
+    database: <%= ENV['TEMPLATEAPP_DATABASE'] %>
+    username: <%= ENV['TEMPLATEAPP_DATABASE_USER'] %>
+    password: <%= ENV['TEMPLATEAPP_DATABASE_PASSWORD'] %>
+    host: <%= ENV['TEMPLATE_DATABASE_HOSTNAME'] %>
+    url: <%= ENV['DATABASE_URL'] %>
+    port: 5432
 
+  queue:
+    <<: *primary_production
 
+  cache:
+    <<: *primary_production
+
+  cable:
+    <<: *primary_production
+    migrations_paths: db/cable_migrate
