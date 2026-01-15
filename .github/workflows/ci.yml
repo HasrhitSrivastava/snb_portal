@@ -1,0 +1,196 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  scan_ruby:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Scan for common Rails security vulnerabilities using static analysis
+        run: bin/brakeman --no-pager
+      
+      - name: Scan for known security vulnerabilities in gems used
+        run: bin/bundler-audit
+      
+  scan_js:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Scan for security vulnerabilities in JavaScript dependencies
+        run: bin/importmap audit
+
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      RUBOCOP_CACHE_ROOT: tmp/rubocop
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Prepare RuboCop cache
+        uses: actions/cache@v4
+        env:
+          DEPENDENCIES_HASH: ${{ hashFiles('.ruby-version', '**/.rubocop.yml', '**/.rubocop_todo.yml', 'Gemfile.lock') }}
+        with:
+          path: ${{ env.RUBOCOP_CACHE_ROOT }}
+          key: rubocop-${{ runner.os }}-${{ env.DEPENDENCIES_HASH }}-${{ github.ref_name == github.event.repository.default_branch && github.run_id || 'default' }}
+          restore-keys: |
+            rubocop-${{ runner.os }}-${{ env.DEPENDENCIES_HASH }}-
+
+      - name: Lint code for consistent style
+        run: bin/rubocop -f github
+
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: snb_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      minio:
+        image: minio/minio:RELEASE.2022-10-29T06-21-33Z
+        env:
+          MINIO_ROOT_USER: minioadmin
+          MINIO_ROOT_PASSWORD: minioadmin
+        ports:
+          - 9000:9000
+
+    env:
+      RAILS_ENV: test
+      TEMPLATEAPP_DATABASE_USER: postgres
+      TEMPLATEAPP_DATABASE_PASSWORD: postgres
+      TEMPLATEAPP_DATABASE_TEST: snb_test
+      S3_ENDPOINT: "http://localhost:9000"
+      S3_BUCKET: "snb"
+      S3_KEY_ID: "minioadmin"
+      S3_SECRET_KEY: "minioadmin"
+      DATABASE_URL: "postgres://postgres:postgres@localhost:5432/snb_test"
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Create Screenshots Directory
+        run: mkdir -p tmp/screenshots
+
+      - name: Setup Minio Bucket
+        run: |
+          sleep 10
+          docker run --network host --entrypoint sh minio/mc -c "mc alias set myminio http://localhost:9000 minioadmin minioadmin; mc mb myminio/snb || true"
+
+      - name: Run All Tests
+        run: |
+          bin/rails db:test:prepare
+          bin/rails test
+          bin/rails test:system
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: screenshots
+          path: tmp/screenshots
+
+  system-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: snb_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      minio:
+        image: minio/minio:RELEASE.2022-10-29T06-21-33Z
+        env:
+          MINIO_ROOT_USER: minioadmin
+          MINIO_ROOT_PASSWORD: minioadmin
+        ports:
+          - 9000:9000
+
+    env:
+      RAILS_ENV: test
+      # These must match your app's specific environment variables
+      TEMPLATEAPP_DATABASE_USER: postgres
+      TEMPLATEAPP_DATABASE_PASSWORD: postgres
+      TEMPLATEAPP_DATABASE_TEST: snb_test
+      S3_ENDPOINT: "http://localhost:9000"
+      S3_BUCKET: "snb"
+      S3_KEY_ID: "minioadmin"
+      S3_SECRET_KEY: "minioadmin"
+      DATABASE_URL: "postgres://postgres:postgres@localhost:5432/snb_test"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Create Screenshots Directory
+        run: mkdir -p tmp/screenshots
+
+      - name: Setup Minio Bucket
+        run: |
+          sleep 5
+          docker run --network host --entrypoint sh minio/mc -c "mc alias set myminio http://localhost:9000 minioadmin minioadmin; mc mb myminio/snb || true"
+
+      - name: Run System Tests
+        run: |
+          bin/rails db:test:prepare
+          bin/rails test:system
+
+      - name: Keep screenshots from failed system tests
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: screenshots
+          path: tmp/screenshots
+          if-no-files-found: ignore

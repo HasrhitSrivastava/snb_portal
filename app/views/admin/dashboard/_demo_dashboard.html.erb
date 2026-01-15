@@ -1,0 +1,87 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<style>
+  .aa-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .aa-card {
+    background: #ffffff;
+    padding: 1.2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    border: 1px solid #f2f2f2;
+  }
+  .aa-card h4 {
+    margin: 0;
+    font-size: .85rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+  .aa-card .value {
+    font-size: 1.8rem;
+    margin-top: .35rem;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .aa-panel {
+    background: #ffffff;
+    padding: 1.2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    border: 1px solid #f2f2f2;
+  }
+  .aa-panel h3 {
+    margin-top: 0;
+    margin-bottom: .8rem;
+    font-weight: 600;
+  }
+</style>
+
+<div class="aa-dashboard-grid">
+  <div class="aa-card">
+    <h4>Total Student</h4>
+    <div class="value"><%= totals[:total_student] %></div>
+  </div>
+
+  <div class="aa-card">
+    <h4>Active Users</h4>
+    <div class="value"><%= totals[:active_users] %></div>
+  </div>
+</div>
+
+<hr>
+
+<canvas id="myChart" style="max-height: 320px; margin-top: 20px;"></canvas>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const ctx = document.getElementById("myChart").getContext("2d");
+
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["Total Students", "Active Users"],
+        datasets: [{
+          label: "Statistics",
+          data: [
+            <%= totals[:total_student] %>,
+            <%= totals[:active_users] %>
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  });
+</script>

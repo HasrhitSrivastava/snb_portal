@@ -1,0 +1,77 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: snb_portal-db
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${TEMPLATEAPP_DATABASE_USER}
+      POSTGRES_PASSWORD: ${TEMPLATEAPP_DATABASE_PASSWORD}
+      POSTGRES_DB: snb_prod
+    ports:
+    - "5433:5432"   # 👈 host:container
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${TEMPLATEAPP_DATABASE_USER} -d snb_prod"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - snb_network
+
+  web:
+    build: .
+    container_name: snb_portal-web
+    restart: unless-stopped
+
+    # ENTRYPOINT handles db:create/migrate/seed 
+    command: bundle exec rails server -b 0.0.0.0 -p 3000
+
+    # ✅ Entrypoint handles db:create/migrate/seed automatically
+    # entrypoint: ["/usr/bin/entrypoint.sh"]  # Make sure this script exists and is executable
+    # command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    environment:
+      RAILS_ENV: production
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+
+      # 🔑 Rails MUST use db (container hostname)
+      DATABASE_URL: postgres://${TEMPLATEAPP_DATABASE_USER}:${TEMPLATEAPP_DATABASE_PASSWORD}@db:5432/snb_prod
+
+    ports:
+      - "3000:3000"  # optional, only for host access
+
+    # ✅ Optional: bind mount for code updates without rebuilding
+    # volumes:
+    #   - ./app:/rails  # Uncomment if you want local changes to reflect immediately
+
+    networks:
+      - snb_network
+
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: snb_portal-ngrok
+    restart: always
+    environment:
+      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
+    command:
+      - "http"
+      - "--domain=crimpy-rebiddable-kayleen.ngrok-free.dev"
+      - "web:3000"
+      - "--log=stdout"
+      - "--log-level=debug"
+    depends_on:
+      - web
+    networks:
+      - snb_network
+
+volumes:
+  postgres_data:
+
+networks:
+  snb_network:
+    driver: bridge
