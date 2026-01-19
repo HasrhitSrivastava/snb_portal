@@ -6,6 +6,15 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
+minio:
+  service: S3
+  access_key_id: <%= ENV['S3_STORAGE_ACCESS_KEY'] %>
+  secret_access_key: <%= ENV['S3_STORAGE_SECRET_ACCESS_KEY'] %>
+  region: <%= ENV['S3_STORAGE_REGION'] %>
+  bucket: <%= ENV['S3_STORAGE_BUCKET'] %>
+  endpoint: <%= ENV['S3_STORAGE_ENDPOINT'] %>
+  force_path_style: true
+
 # Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
 #   service: S3
