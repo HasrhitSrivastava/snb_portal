@@ -208,7 +208,7 @@ ActiveAdmin.setup do |config|
   #   end
 
   # == Download Links
-  config.download_links = [:csv]
+  config.download_links = [ :csv ]
   #
   # You can disable download links on resource listing pages,
   # or customize the formats shown per namespace/globally
