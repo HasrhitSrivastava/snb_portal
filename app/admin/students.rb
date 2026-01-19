@@ -76,9 +76,9 @@ ActiveAdmin.register Student do
     end
   end
 
-  # action_item :print_doc, only: :index do
-  #   link_to "Print DOC File", print_doc_admin_student_path(resource), target: "_blank"
-  # end
+  action_item :download_sample, only: :index do
+    link_to "Download Sample CSV", "/sample.csv", target: "_blank", class: "action-item-button"
+  end
 
   action_item :print_snb_eng_tc, only: :index do
     link_to "SNB TC", print_snb_eng_tc_admin_students_path, target: "_blank", class: "action-item-button"
