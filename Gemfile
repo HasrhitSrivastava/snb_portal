@@ -72,7 +72,7 @@ gem "activeadmin", "= 4.0.0beta15"
 gem "action_text-trix", ">= 2.1.16"
 
 # gem 'activerecord-session_store'
-gem "devise", "~> 4.9"
+gem "devise", "~> 5.0"
 
 gem "cssbundling-rails", "= 1.4.1"
 
