@@ -41,7 +41,6 @@ en:
     email_wrong_format: 'Line: %{p0}, Email is incorrect.'
     first_name_too_long: 'Line: %{p0}, Please set the maximum number of Character of the first name: 50.'
     last_name_too_long: 'Line: %{p0}, Please set the maximum number of Character of the last name: 50.'
-    category_name_too_long: 'Line: %{p0} and Column: %{p1}, Maximum 100 characters allowed for Category Name.'
     import_success: 'The file was successfully imported.'
     header_column_not_present: 'Column: %{p0}, In header is not present.'
     header_column_too_long: 'Column: %{p0}, Maximum 100 characters allowed for Header Name.'
