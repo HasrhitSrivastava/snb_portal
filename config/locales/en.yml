@@ -53,8 +53,6 @@ en:
     process_date_not_present: 'The processing date and time has not been entered.'
     value_too_long: 'The number of characters of the %{p0} exceeds 100 Characters.'
     process_date_format_wrong: 'Process DateTime format must be YYYY/MM/DD.'
-    process_date_not_valid: 'Process Date is not a valid date.'
-    user_code_email_both_present: 'Only one value can be allowed from the member ID and email address.'
     user_code_email_any_one_must_present: 'Either your member ID or email address must be present.'
     code_too_long: 'Line: %{p0}, Maximum 100 characters allowed for code.'
     country_too_long: 'Line: %{p0}, Maximum 20 characters allowed for country and province.'
