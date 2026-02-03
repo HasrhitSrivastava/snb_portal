@@ -128,25 +128,6 @@ ActiveAdmin.register Student do
     f.actions
   end
 
-  # member_action :print_doc, method: :get do
-  #   # ======= Your DOCX generation logic goes here =======
-  #   # Example: Generate a simple DOCX
-  #   require 'docx'
-
-  #   file_path = Rails.root.join("tmp", "student_#{resource.id}.docx")
-  #   doc = Docx::Document.open(Rails.root.join("app", "templates", "snb_transfer_certificate.docx"))
-
-  #   # Example replacements
-  #   doc.bookmarks['first_name'].insert_text_after(resource.first_name.to_s)
-  #   doc.bookmarks['father_name'].insert_text_after(resource.father_name.to_s)
-
-  #   doc.save(file_path)
-
-  #   send_file file_path,
-  #             type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  #             filename: "student_#{resource.id}.docx"
-  # end
-
   collection_action :print_snb_eng_tc, method: :get do
     # Generate any generic or batch DOC file here
     send_file Rails.root.join("app", "templates", "snb_transfer_certificate_eng.docx"), type: "application/docx"
