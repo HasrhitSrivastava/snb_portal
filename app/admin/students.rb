@@ -129,12 +129,10 @@ ActiveAdmin.register Student do
   end
 
   collection_action :print_snb_eng_tc, method: :get do
-    # Generate any generic or batch DOC file here
     send_file Rails.root.join("app", "templates", "snb_transfer_certificate_eng.docx"), type: "application/docx"
   end
 
   collection_action :print_snbsn_tc, method: :get do
-    # Generate any generic or batch DOC file here
     send_file Rails.root.join("app", "templates", "snb_transfer_certificate.docx"), type: "application/docx"
   end
 end
