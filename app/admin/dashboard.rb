@@ -16,13 +16,11 @@ ActiveAdmin.register_page "Dashboard" do
   # end
 
   content title: proc { I18n.t("active_admin.dashboard") } do
-    # Demo numbers (static or compute here)
     totals = {
       total_student: Student.count,
       active_users: 1
     }
 
-    # Chart demo dataset (labels + values as simple arrays)
     sales_dataset = {
       labels: %w[Apr May Jun Jul Aug Sep],
       values: [ 4200, 5200, 4800, 6100, 7300, 6900 ]
