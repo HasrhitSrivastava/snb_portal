@@ -23,7 +23,7 @@ ActiveAdmin.register_page "Dashboard" do
 
     sales_dataset = {
       labels: %w[Apr May Jun Jul Aug Sep],
-      values: [ 4200, 5200, 4800, 6100, 7300, 6900 ]
+      values: [ 1200, 1800, 2200, 1700, 2800, 2600 ]
     }
 
     users_dataset = {
