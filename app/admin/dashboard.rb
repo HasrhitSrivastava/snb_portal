@@ -22,7 +22,7 @@ ActiveAdmin.register_page "Dashboard" do
     stats = {
       revenue: "$12,430",
       users: 1284,
-      signups: 87,
+      signups: 66,
       orders: 42
     }
 
