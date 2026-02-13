@@ -5,7 +5,7 @@ ActiveAdmin.register Student do
   # or consider:
   #
   # permit_params do
-  #   permitted = [:scholar_number, :first_name, :last_name, :grade, :father_name, :mother_name, :gender, :dob, :email, :address, :city, :state, :country, :country_code, :phone_number, :aadhar_number]
+  #   permitted = [:scholar_number, :first_name, :last_name, :grade, :father_name, :mother_name, :gender, :dob, :email, :address, :city, :state]
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
