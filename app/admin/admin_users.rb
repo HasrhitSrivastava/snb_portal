@@ -14,7 +14,6 @@ ActiveAdmin.register AdminUser do
   end
 
   filter :email
-  # filter :created_at
 
   form do |f|
     f.inputs do
