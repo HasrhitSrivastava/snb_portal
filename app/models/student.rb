@@ -12,7 +12,7 @@ class Student < ApplicationRecord
     validates_length_of :first_name, minimum: 3, if: -> { first_name.present? }, message: "First name is too short (minimum is 3 characters)"
     validates_length_of :phone_number, minimum: 4, maximum: 16, if: -> { phone_number.present? }, message: "Phone number is too short (minimum is 4 characters)"
 
-    enum :grade, { nursery: 0, lkg: 1, ukg: 2, class1: 3, class2: 4, class3: 5, class4: 6, class5: 7, class6: 8, class7: 9, class8: 10, class9: 11, class10: 12, class11: 13, class12: 14 }
+    enum :grade, { nursery: 0, lkg: 1, ukg: 2, class1: 3, class2: 4, class3: 5, class4: 6, class5: 7, class6: 8, class7: 9, class8: 10 }
 
     enum :gender, { male: 0, female: 1, others: 2 }
 
