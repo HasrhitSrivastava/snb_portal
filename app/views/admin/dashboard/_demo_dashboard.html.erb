@@ -85,3 +85,39 @@
     });
   });
 </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const chrt = document.getElementByClass("logChart").getContext("3d");
+
+    new Chart(chrt, {
+      type: "bar",
+      data: {
+        labels: ["Total Users", "Daily Users", "One Time Users", "Activity", "Activity Date", "Users with cart", "Flex Users"],
+        datasets: [{
+          labels: "Set Values",
+          data: [
+            <%= 1000 %>
+            <%= 1010 %>
+            <%= 1020 %>
+            <%= 1030 %>
+            <%= 1040 %>
+            <%= 1050 %>
+            <%= 1060 %>
+          ],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: false }
+        }
+      }
+    });
+  });
+
+
+  <% student_details = Student.where("activity is not NULL") %>
+  <% student_dob = Student.all.dob  %>
+</script>
